@@ -87,7 +87,22 @@
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "d5dea50d305a48f1a3aa5dcfbee09030"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+                        
+
+  <script>
+    class CalculationError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "CalculationError";
+      }
+    }
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -95,13 +110,61 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      try {
+        if(!(firstNum) || !(secondNum) || isNaN(firstNum) || isNaN(secondNum)) {
+          throw new CalculationError("Invalid Values Inputted");
+        }
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      } catch (err) {
+        console.error(err.stack);
+      } finally {
+        console.log("Calculation Complete");
+      }
     });
 
-    let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
+    function z() {
+      console.trace();
+    }
+    function y() {
+      z();
+    }
+    function x() {
+      y();
+    }
 
-    // Start your code here
-    // You may move this JS to another file if you wish
+    /* handling error print */
+    /*
+    window.onerror = (a, b, c, d, e) => {
+      console.log(`message: ${a}`);
+      console.log(`source: ${b}`);
+      console.log(`lineno: ${c}`);
+      console.log(`colno: ${d}`);
+      console.log(`error: ${e}`);
+
+      return true;
+    };
+    */
+    let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
+    errorBtns[0].addEventListener("click", function() {console.log("Console Log Demo");});
+    errorBtns[1].addEventListener("click", function() {console.error("Console Error Demo");});
+    errorBtns[2].addEventListener("click", function() {console.count("Count Button");});
+    errorBtns[3].addEventListener("click", function() {console.warn("Console Warn Demo");});
+    errorBtns[4].addEventListener("click", function() {console.assert(1===2, "Number does not equal 2");});
+    errorBtns[5].addEventListener("click", function() {console.clear();});
+    errorBtns[6].addEventListener("click", function() {console.dir(errorBtns[6]);});
+    errorBtns[7].addEventListener("click", function() {console.dirxml(errorBtns[7]);});
+    errorBtns[8].addEventListener("click", function() {console.group();});
+    errorBtns[9].addEventListener("click", function() {console.groupEnd();});
+    errorBtns[10].addEventListener("click", function() {
+      console.table(["apples", "oranges", "bananas"]);
+    });
+    errorBtns[11].addEventListener("click", function() {console.time("timer");});
+    errorBtns[12].addEventListener("click", function() {console.timeEnd("timer");});
+    errorBtns[13].addEventListener("click", function() {x();});
+    errorBtns[14].addEventListener("click", function() {
+      ausfhoasibhiwebjioawnosdvbiasnoajewo();
+    });
+
   </script>
 </body>
 
